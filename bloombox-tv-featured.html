@@ -1,0 +1,82 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-checkbox/paper-checkbox.html">
+
+<dom-module id="bloombox-tv-featured">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 0 2em;
+      }
+      ul {
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 1em;
+        float: left;
+        list-style: none;
+        max-height: 300px;
+        overflow-y: scroll;
+        width: 22%;
+        margin: 1em 1.5%;
+      }
+      ul:first-child {
+        margin-left: 0;
+      }
+      h1 {
+        text-transform: capitalize;
+      }
+    </style>
+
+    <template is="dom-repeat" items="[[products]]">
+      <ul>
+      <h1>[[_getSelectionTitles(index)]]</h1>
+      <template is="dom-repeat" items="[[_objToArr(item)]]">
+          <li><paper-checkbox role="checkbox" name="[[item.name]]">[[item.name]]</paper-checkbox></li>
+      </template>
+      </ul>
+    </template>
+  </template>
+
+  <script>
+    /**
+     * `bloombox-tv-featured`
+     * Featured products manager.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+     var BloomboxTvFeatured = Polymer.BloomboxTvFeatured = Polymer({
+        is: 'bloombox-tv-featured',
+        properties: {
+          products: {
+            type: Array,
+            notify: true
+          },
+          sections: {
+            type: Object,
+            notify: true,
+            observer: 'checkdata'
+          },
+          sectionTitles: {
+            type: Array
+          }
+        },
+        _objToArr: function(obj) {
+          if(obj !== undefined) {
+            return Object.keys(obj).map(key => obj[key])
+          }
+        },
+        _getSelectionTitles(index) {
+          return this.sectionTitles[index]
+        },
+        checkdata: function(data) {
+          var arr = []
+          for(var key in data) {
+            arr.push(key)
+          }
+          this.sectionTitles = arr
+        }
+     });
+  </script>
+</dom-module>

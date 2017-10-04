@@ -1,0 +1,321 @@
+<!-- 
+`bloombox-tv-menu-item` Displays Bloombox menus on TVs.
+ 
+@customElement
+@polymer
+@demo demo/index.html
+-->
+<link rel="import" href="../polymer/polymer.html">
+<dom-module id="bloombox-tv-menu-item">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-wrap: wrap;
+        border: 1px solid #e3e3e3;
+        border-right: 0;
+        box-sizing: border-box;
+        width: 50%;
+      }
+      .image-container {
+        width: 60%;
+        height: auto;
+        position: relative;
+      }
+      .image-container img {
+        height: auto;
+        width: 100%;
+      };
+      .testing-container {
+        margin-left: 4%;
+        width: 36%;
+      }
+      .pricing-container {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+      }
+      .flower-row {
+        width: 100%;
+        background: #fff;
+        display: flex;
+        flex-wrap: wrap;
+        border-bottom: 1px solid #eee;
+        padding: 1.1em 0;
+      }
+      .flower-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .flower-icon img {
+        border-radius: 50%;
+      }
+      .flower-title h1,
+      .flower-title h2 {
+        font-weight: 400;
+        margin: 0;
+      }
+      .flower-title h1 {
+        font-size: 1.65em;
+      }
+      .flower-title h2 {
+        color: #999;
+        font-size: 1.3em;
+        min-height: 31px;
+      }
+      .flower-testing {
+        display: flex;
+      }
+      .flower-testing span {
+        display: flex;
+        flex-direction: column;
+        font-size: 18px;
+        justify-content: flex-end;
+        color: #999;
+        margin-right: 15px;
+      }
+      .flower-pricing > div {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        text-align: center;
+        width: 25%;
+      }
+      .flower-row > div.flower-pricing {
+        display: flex;
+      }
+      .flower-pricing span:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        font-size: 22px;
+      }
+      .flower-pricing span:first-child {
+        color: #999;
+        font-size: 15px;
+        flex-grow: 1;
+      }
+      .flower-icon {
+        width: 11%;
+      }
+      .flower-title {
+        width: 34%;
+      }
+      .flower-testing {
+        width: 28%;
+      }
+      .flower-pricing.by-unit > div {
+        width: 100%;
+      }
+      .flower-pricing {
+        width: 25%;
+      }
+      .section-title {
+        background: #eee;
+        width: 100%;
+        display: flex;
+        padding: 0.2em 1em;
+      }
+      .section-title img {
+        height: 80px;
+        margin-right: 1em;
+        margin-top: 5px;
+      }
+      .section-title h1 {
+        align-items: center;
+        display: flex;
+        font-size: 32px;
+      }
+      .species-icon {
+        border-radius: 50%;
+        color: white;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        padding-left: 0px;
+        padding-top: 3px;
+        box-sizing: border-box;
+        font-size: 28px;
+      }
+      .species-icon.H {
+        background: orange;
+      }
+      .species-icon.S {
+        background: red;
+      }
+      .species-icon.I {
+        background: purple;
+      }
+      .species-icon.C {
+        background: green;
+      }
+      .species-icon.U {
+        background: gray;
+      }
+      .species-icon.A {
+        background: blue;
+      }
+
+      @media(max-width: 1919px) {
+        .flower-title h1 {
+          font-size: 1em;
+        }
+        .flower-title h2 {
+          font-size: 0.8em;
+        }
+        .flower-testing span {
+          font-size: 14px;
+        }
+        .flower-pricing span:nth-child(2) {
+          font-size: 14px;
+        }
+      }
+
+      @media(max-width: 1440px) {
+        .species-icon {
+          font-size: 15px;
+          width: 28px;
+          height: 28px;
+        }
+      }
+
+    </style>
+    <section class="section-title">
+      <img src="[[menuSettings.image]]">
+      <h1>[[menuSettings.title]]</h1>
+    </section>
+    <template is="dom-repeat" items="{{weightData}}">
+    <div class="flower-row">
+      <div class="flower-icon">
+        <span class$="species-icon {{iconGenerator(item.species)}}">{{iconGenerator(item.species)}}</span>
+      </div>
+      <div class="flower-title">
+        <h1>{{item.name}}</h1>
+        <h2>{{item.brand}}</h2>
+      </div>
+      <div class="flower-testing">
+        <template is="dom-if" if="{{!_checkCategory(category, 'merch')}}">
+          <span>{{item.tests.thc}}{{item.tests.mode}} THC</span>
+          <template is="dom-if" if="{{_checkCategory(category, 'prerolls')}}">
+            <span>{{item.tests.cbd}}{{item.tests.mode}} CBD</span>
+          </template>
+        </template>
+      </div>
+      
+
+      <!-- FLOWERS PRICING -->
+
+      <template is="dom-if" if="{{_checkCategory(category, 'flowers')}}">
+        <div class="flower-pricing by-weight">
+          <div>
+            <span>g</span>
+            <span>${{item.pricing.gram.value}}</span>
+          </div>
+          <div>
+            <span>1/8</span>
+            <span>${{item.pricing.eighth.value}}</span>
+          </div>
+          <div>
+            <span>1/2</span>
+            <span>${{item.pricing.half.value}}</span>
+          </div>
+          <div>
+            <span>Oz</span>
+            <span>${{item.pricing.ounce.value}}</span>
+          </div>
+        </div>
+      </template>
+
+      <!-- CONCENTRATES PRICING -->
+
+      <template is="dom-if" if="{{_checkCategory(category, 'concentrates')}}">
+        <div class="flower-pricing by-weight">
+          <div>
+            <span>0.5g</span>
+            <span>${{item.pricing.halfgram.value}}</span>
+          </div>
+          <div>
+            <span>g</span>
+            <span>${{item.pricing.gram.value}}</span>
+          </div>
+        </div>
+      </template>
+
+      <!-- UNIT PRICING -->
+
+      <template is="dom-if" if="{{_isUnitPricing(category)}}">
+        <div class="flower-pricing by-unit">
+          <div>
+            <span>Each</span>
+            <span>${{item.pricing.unit.value}}</span>
+          </div>
+        </div>
+      </template>
+
+    </div>
+    </template>
+  </template>
+
+  <script>
+  Polymer.BloomboxTVMenuItem = Polymer({
+      is: 'bloombox-tv-menu-item',
+      properties: {
+        menuData: {
+            type: Object,
+            observer: '_itemInit'
+          },
+          menuSettings: {
+            type: Object
+          },
+          category: {
+            type: String
+          },
+          weightData: {
+            type: Array
+          },
+          title: {
+            type: String
+          },
+          filter: {
+            type: String
+          },
+          headerImage: {
+            type: String
+          },
+          unitPricing: {
+            type: Boolean,
+            value: false
+          }
+      },
+      _checkCategory: function(category, check) {
+          return category === check
+      },
+      _isUnitPricing: function(category) {
+        return ['apothecary', 'cartridges', 'edibles', 'merch', 'prerolls'].indexOf(category) > -1
+      },
+      _itemInit: function(item) {
+        this.weightData = this._maxItems(item, 3)
+        // console.log(this.weightData)
+        for(var i = 0; i < this.weightData.length; i++) {
+          //console.log(item)
+        }
+      },
+      floatHundred: function(number) {
+         return Math.ceil(number * 100) / 100
+      },
+      _objToArr: function(obj) {
+        return Object.keys(obj).map(key => obj[key])
+      },
+      _maxItems: function(data, items) {
+        var arr = this._objToArr(data).slice(0, items)
+        return arr;
+      },
+      iconGenerator: function(species) {
+        var iconletter = typeof species !== 'undefined' ? species.slice(0, 1) : 'A'
+        return iconletter;
+      }
+  });
+  </script>
+</dom-module>
