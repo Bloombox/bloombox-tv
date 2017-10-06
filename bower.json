@@ -1,5 +1,6 @@
 {
-  "name": "bloombox-tv-sort",
+  "name": "bloombox-tv",
+  "version": "0.0.2",
   "description": "Sorts TV element components.",
   "main": "bloombox-tv-sort.html",
   "dependencies": {
