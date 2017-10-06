@@ -211,19 +211,19 @@
         <div class="flower-pricing by-weight">
           <div>
             <span>g</span>
-            <span>${{item.pricing.gram.value}}</span>
+            <span>${{item.pricelist.gram.value}}</span>
           </div>
           <div>
             <span>1/8</span>
-            <span>${{item.pricing.eighth.value}}</span>
+            <span>${{item.pricelist.eighth.value}}</span>
           </div>
           <div>
             <span>1/2</span>
-            <span>${{item.pricing.half.value}}</span>
+            <span>${{item.pricelist.half.value}}</span>
           </div>
           <div>
             <span>Oz</span>
-            <span>${{item.pricing.ounce.value}}</span>
+            <span>${{item.pricelist.ounce.value}}</span>
           </div>
         </div>
       </template>
@@ -297,10 +297,6 @@
       },
       _itemInit: function(item) {
         this.weightData = this._maxItems(item, 3)
-        // console.log(this.weightData)
-        for(var i = 0; i < this.weightData.length; i++) {
-          //console.log(item)
-        }
       },
       floatHundred: function(number) {
          return Math.ceil(number * 100) / 100
