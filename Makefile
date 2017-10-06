@@ -7,7 +7,7 @@ BUILDBOT ?= 0
 ENV ?= .env/
 TARGET ?= target/
 CREDENTIALS ?= 1
-VERSION ?= 0.0.1
+VERSION ?= 0.0.2
 
 all: build
 	@echo "bloombox-tv is ready."
