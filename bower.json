@@ -5,9 +5,5 @@
   "main": "bloombox-tv-sort.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0"
-  },
-  "devDependencies": {
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers",
-    "webcomponentsjs": "webcomponents/webcomponentsjs"
   }
 }
