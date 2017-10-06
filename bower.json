@@ -1,16 +1,13 @@
 {
   "name": "bloombox-tv",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Sorts TV element components.",
   "main": "bloombox-tv-sort.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^1.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
-  },
-  "resolutions": {
-    "polymer": "^2.0.0"
   }
 }
