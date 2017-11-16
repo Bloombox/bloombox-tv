@@ -68,13 +68,16 @@
       .flower-testing {
         display: flex;
       }
+      .flower-testing > div {
+        margin: 0 10px;
+        text-align: center;
+      }
       .flower-testing span {
         display: flex;
         flex-direction: column;
         font-size: 18px;
         justify-content: flex-end;
         color: #999;
-        margin-right: 15px;
       }
       .flower-pricing > div {
         display: flex;
@@ -82,6 +85,7 @@
         flex-direction: column;
         text-align: center;
         width: 25%;
+        float: left;
       }
       .flower-row > div.flower-pricing {
         display: flex;
@@ -98,25 +102,31 @@
         flex-grow: 1;
       }
       .flower-icon {
-        width: 11%;
+        flex: 0 0 17%;
       }
       .flower-title {
-        width: 34%;
+        flex: 1;
       }
       .flower-testing {
-        width: 28%;
+        /*flex: 0 0 20%;*/
+        align-items: flex-start;
+        justify-content: center;
+        width: 55px;
       }
       .flower-pricing.by-unit > div {
         width: 100%;
       }
       .flower-pricing {
-        width: 25%;
+        flex: 1;
+        padding-right: 20px;
+        /*flex: 0 0 80%;*/
       }
       .section-title {
         background: #eee;
         width: 100%;
         display: flex;
         padding: 0.2em 1em;
+        height: 102px;
       }
       .section-title img {
         height: 80px;
@@ -158,6 +168,16 @@
         background: blue;
       }
 
+      .flex-left {
+        display: flex;
+        flex: 2;
+      }
+
+      .flex-right {
+        display: flex;
+        flex: 1;
+      }
+
       @media(max-width: 1919px) {
         .flower-title h1 {
           font-size: 1em;
@@ -182,80 +202,91 @@
       }
 
     </style>
+
     <section class="section-title">
       <img src="[[menuSettings.image]]">
       <h1>[[menuSettings.title]]</h1>
     </section>
+
     <template is="dom-repeat" items="{{weightData}}">
-    <div class="flower-row">
-      <div class="flower-icon">
-        <span class$="species-icon {{iconGenerator(item.species)}}">{{iconGenerator(item.species)}}</span>
-      </div>
-      <div class="flower-title">
-        <h1>{{item.name}}</h1>
-        <h2>{{item.brand}}</h2>
-      </div>
-      <div class="flower-testing">
-        <template is="dom-if" if="{{!_checkCategory(category, 'merch')}}">
-          <span>{{item.tests.thc}}{{item.tests.mode}} THC</span>
-          <template is="dom-if" if="{{_checkCategory(category, 'prerolls')}}">
-            <span>{{item.tests.cbd}}{{item.tests.mode}} CBD</span>
+      <div class="flower-row">
+        <div class="flex-left">
+          <div class="flower-icon">
+            <span class$="species-icon {{iconGenerator(item.species)}}">{{iconGenerator(item.species)}}</span>
+          </div>
+          <div class="flower-title">
+            <h1>{{item.name}}</h1>
+            <h2>{{item.brand}}</h2>
+          </div>
+        </div>
+        <div class="flex-right">
+          <div class="flower-testing">
+            <template is="dom-if" if="{{!_checkCategory(category, 'merch')}}">
+              <div>
+                <span><strong>{{item.tests.thc}}{{item.tests.mode}}</strong></span>
+                <span>THC</span>
+              </div>
+              <template is="dom-if" if="{{_checkCategory(category, 'prerolls')}}">
+                <div>
+                  <span><strong>{{item.tests.cbd}}{{item.tests.mode}}</strong></span>
+                  <span>CBD</span>
+                </div>
+              </template>
+            </template>
+          </div>
+          
+          <!-- FLOWERS PRICING -->
+
+          <template is="dom-if" if="{{_checkCategory(category, 'flowers')}}">
+            <div class="flower-pricing by-weight">
+              <div>
+                <span>g</span>
+                <span>${{_computePrice(item, 'gram')}}</span>
+              </div>
+              <div>
+                <span>1/8</span>
+                <span>${{_computePrice(item, 'eighth')}}</span>
+              </div>
+              <div>
+                <span>1/2</span>
+                <span>${{_computePrice(item, 'half')}}</span>
+              </div>
+              <div>
+                <span>Oz</span>
+                <span>${{_computePrice(item, 'ounce')}}</span>
+              </div>
+            </div>
           </template>
-        </template>
+
+          <!-- CONCENTRATES PRICING -->
+
+          <template is="dom-if" if="{{_checkCategory(category, 'concentrates')}}">
+            <div class="flower-pricing by-weight">
+              <div>
+                <span>0.5g</span>
+                <span>${{item.pricing.halfgram.value}}</span>
+              </div>
+              <div>
+                <span>g</span>
+                <span>${{item.pricing.gram.value}}</span>
+              </div>
+            </div>
+          </template>
+
+          <!-- UNIT PRICING -->
+
+          <template is="dom-if" if="{{_isUnitPricing(category)}}">
+            <div class="flower-pricing by-unit">
+              <div>
+                <span>Each</span>
+                <span>${{item.pricing.unit.value}}</span>
+              </div>
+            </div>
+          </template>
+        </div>
       </div>
-      
-
-      <!-- FLOWERS PRICING -->
-
-      <template is="dom-if" if="{{_checkCategory(category, 'flowers')}}">
-        <div class="flower-pricing by-weight">
-          <div>
-            <span>g</span>
-            <span>${{_computePrice(item, 'gram')}}</span>
-          </div>
-          <div>
-            <span>1/8</span>
-            <span>${{_computePrice(item, 'eighth')}}</span>
-          </div>
-          <div>
-            <span>1/2</span>
-            <span>${{_computePrice(item, 'half')}}</span>
-          </div>
-          <div>
-            <span>Oz</span>
-            <span>${{_computePrice(item, 'ounce')}}</span>
-          </div>
-        </div>
-      </template>
-
-      <!-- CONCENTRATES PRICING -->
-
-      <template is="dom-if" if="{{_checkCategory(category, 'concentrates')}}">
-        <div class="flower-pricing by-weight">
-          <div>
-            <span>0.5g</span>
-            <span>${{item.pricing.halfgram.value}}</span>
-          </div>
-          <div>
-            <span>g</span>
-            <span>${{item.pricing.gram.value}}</span>
-          </div>
-        </div>
-      </template>
-
-      <!-- UNIT PRICING -->
-
-      <template is="dom-if" if="{{_isUnitPricing(category)}}">
-        <div class="flower-pricing by-unit">
-          <div>
-            <span>Each</span>
-            <span>${{item.pricing.unit.value}}</span>
-          </div>
-        </div>
-      </template>
-
-    </div>
     </template>
+
   </template>
 
   <script>
