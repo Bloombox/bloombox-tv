@@ -5,6 +5,6 @@
   "main": "bloombox-tv-sort.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-    "polymer-quill": "git@github.com:chuckh/polymer-quill.git#master"
+    "polymer-quill": "git@github.com:bloombox/polymer-quill.git#master"
   }
 }
