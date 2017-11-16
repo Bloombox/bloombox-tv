@@ -20,6 +20,18 @@
       .banner h1, .banner h2 {
         text-shadow: 0px 4px 9px #333;
       }
+
+      @media(max-width: 1920px) {
+        :host {
+          font-size: 70%;
+        }
+      }
+
+      @media(max-width: 1440px) {
+        :host {
+          font-size: 60%;
+        }
+      }
     </style>
     <section class="header">
       <div id="banner" class="banner" style$="background-image: url([[bannerImageUrl]])"></div>
